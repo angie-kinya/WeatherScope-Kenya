@@ -54,5 +54,13 @@
         <form method="get" action="{% url 'export_to_csv' %}">
             <button type="submit">Export to CSV</button>
         </form>
+
+        <script>
+            document.cookie.split(';').forEach(function(cookie) {
+                if (cookie.trim().startsWith('csrftoken=')) {
+                    window.CSRF_TOKEN = cookie.split('=')[1];
+                }
+            });
+        </script>
     </body>
 </html>

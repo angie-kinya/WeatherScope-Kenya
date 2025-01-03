@@ -7,7 +7,9 @@ from django.db.models import Q
 import csv
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def weather_dashboard(request):
     weather_info = None
     filters = {}
@@ -50,6 +52,7 @@ def weather_dashboard(request):
         "filtered_queries": filtered_queries
     })  # noqa: E501
 
+@csrf_exempt
 def export_to_csv(request):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="weather_queries.csv"'
