@@ -1,7 +1,7 @@
 import requests
 
 def fetch_weather_data(city):
-    API_KEY = "528d7740e1b8617f1659948c712e4732"
+    API_KEY = "YOUR_API_KEY"
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
     params = {
         "q": city,
