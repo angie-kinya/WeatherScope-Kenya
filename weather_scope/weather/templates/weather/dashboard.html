@@ -38,5 +38,21 @@
                 {% endfor %}
             </ul>
         {% endif %}
+
+        {% if filtered_queries.has_other_pages %}
+            <div class="pagination">
+                {% if filtered_queries.has_previous %}
+                    <a href="?page={{ filtered_queries.previous_page_number }}">&laquo; Previous</a>
+                {% endif %}
+                <span>Page {{ filtered_queries.number }} of {{ filtered_queries.paginator.num_pages }}</span>
+                {% if filtered_queries.has_next %}
+                    <a href="?page={{ filtered_queries.next_page_number }}">Next &raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <form method="get" action="{% url 'export_to_csv' %}">
+            <button type="submit">Export to CSV</button>
+        </form>
     </body>
 </html>
