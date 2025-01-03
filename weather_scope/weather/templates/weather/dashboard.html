@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WeatherScope Kenya</title>
+    </head>
+    <body>
+        <h1>WeatherScope Kenya</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter City" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        {% if weather_info %}
+            <h2>Weather in {{ weather_info.city }}</h2>
+            <p>Temperature: {{ weather_info.temperature }}°C</p>
+            <p>Condition: {{ weather_info.description }}</p>
+            <img src="http://openweathermap.org/img/wn/{{ weather_info.icon }}@2x.png" alt="Weather Icon">
+        {% endif %}
+    </body>
+</html>
