@@ -8,13 +8,35 @@
         <form method="post">
             {% csrf_token %}
             <input type="text" name="city" placeholder="Enter City" required>
+            <input type="text" name="region" placeholder="Enter Region (Optional)">
             <button type="submit">Get Weather</button>
         </form>
+
         {% if weather_info %}
-            <h2>Weather in {{ weather_info.city }}</h2>
+            <h2>Weather in {{ weather_info.city }}, {{ weather_info.region }}</h2>
             <p>Temperature: {{ weather_info.temperature }}°C</p>
             <p>Condition: {{ weather_info.description }}</p>
+            <p>Date: {{ weather_info.date }}</p>
+            <p>Time: {{ weather_info.time }}</p>
             <img src="http://openweathermap.org/img/wn/{{ weather_info.icon }}@2x.png" alt="Weather Icon">
+        {% endif %}
+
+        <h2>Filter Queries</h2>
+        <form method="get">
+            <label for="filter_date">Filter by Date:</label>
+            <input type="date" name="filter_date" id="filter_date">
+            <label for="filter_region">Filter by Region:</label>
+            <input type="text" name="filter_region" placeholder="Region">
+            <button type="submit">Apply Filters</button>
+        </form>
+
+        {% if filtered_queries %}
+            <h3>Filtered Results:</h3>
+            <ul>
+                {% for query in filtered_queries %}
+                    <li>{{ query.city }}, {{ query.region }} - {{ query.query_time }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
     </body>
 </html>
