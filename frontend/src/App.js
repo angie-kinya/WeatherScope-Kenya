@@ -14,13 +14,47 @@ function App() {
   const [paginationInfo, setPaginationInfo] = useState({ currentPage: 1, totalPages: 1 });
 
   const getWeather = async () => {
-      try {
-          const response = await fetchWeather(city, region);
-          setWeather(response.data);
-      } catch (error) {
-          console.error('Error fetching weather:', error);
-      }
-  };
+    const payload = {
+        city,
+        region,
+    };
+
+    try {
+        const response = await fetch("/api/weather/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // Specify JSON content type
+                "X-CSRFToken": getCookie("csrftoken"), // Ensure CSRF token is included
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setWeather(data); // Assuming backend returns a JSON object with weather info
+        } else {
+            console.error("Failed to fetch weather data:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error occurred while fetching weather data:", error);
+    }
+};
+
+// Helper function to retrieve CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+        for (let i = 0; i < cookies.length; i++) {
+            if (cookies[i].startsWith(`${name}=`)) {
+                cookieValue = decodeURIComponent(cookies[i].substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 
   const applyFilters = async () => {
       try {
@@ -53,6 +87,8 @@ function App() {
                   type="text"
                   placeholder="Enter City"
                   value={city}
+                  name="city"
+                  id="city"
                   onChange={(e) => setCity(e.target.value)}
               />
               <input
