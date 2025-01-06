@@ -8,7 +8,11 @@ def fetch_weather_data(city):
         "appid": API_KEY,
         "units": "metric",
     }
+    print(params)
     response = requests.get(BASE_URL, params=params)
     if response.status_code == 200:
+        print(response.json())
         return response.json()
+    else:
+        print("Failed to fetch weather data")
     return None
